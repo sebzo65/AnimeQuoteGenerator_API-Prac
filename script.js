@@ -9,7 +9,7 @@ const getQuotes = async (titleAnime) => {
   const response = await fetch(`${ANIME_QUOTES_URL}/anime?title=${titleAnime}`);
   const data = await response.json(); //2 steps to retrieving data from server
   console.log(data);
-  return data.data;
+  return data;
 };
 
 //Add event listener for the button which will trigger the API and return anime quotes for the title that is input
@@ -27,21 +27,21 @@ quoteButton.addEventListener("click", async (e) => {
   //inputAnime to return quotes for the right title
   //
   //get anime title with quotes
-  const animeSeries = await getQuotes(titleAnime);
-  console.log(animeSeries);
+  const animeArr = await getQuotes(titleAnime);
+  console.log("animeSeries");
   //Create li elements for each title
-  const listItems = animeSeries.map((anime) => {
-    const element = document.createElement("li");
-    const animeText = `${anime.character} quote: ${anime.quote}`;
-    const textNode = document.createTextNode(animeText);
+  const animeSearchItems = animeArr.map((anime) => {
+    const animeElement = document.createElement("li");
+    const animeText = `${anime.character} quote: ${[anime.quote]}`;
+    const animeTextNode = document.createTextNode(animeText);
 
-    element.appendChild(textNode);
-    return element;
+    animeElement.appendChild(animeTextNode);
+    return animeElement;
   });
 
   //Attach the li elements to ul element in HTML file
 
-  const list = document.querySelector("#quotes");
+  const animeSeries = document.querySelector("#animeSeries");
   const append = (parent) => (child) => parent.appendChild(child);
-  listItems.forEach(append(list));
+  animeSearchItems.forEach(append(animeSeries));
 });
